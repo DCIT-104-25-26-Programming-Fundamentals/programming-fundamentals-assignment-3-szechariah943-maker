@@ -80,5 +80,67 @@
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
+const readlineSync = require('readline-sync');
 
+function addTask(tasks) {
+    let task = readlineSync.question('Enter task: ');
+    tasks.push(task);
+    console.log(`Task added: "${task}"`);
+}
+
+function viewTasks(tasks) {
+    if (tasks.length === 0) {
+        console.log('Your to-do list is currently empty.');
+        return;
+    }
+    console.log('\nYour Tasks:');
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`${i + 1}. ${tasks[i]}`);
+    }
+}
+
+function deleteTask(tasks) {
+    if (tasks.length === 0) {
+        console.log('No tasks to delete.');
+        return;
+    }
+    viewTasks(tasks);
+    let index = readlineSync.questionInt('Enter task number to delete: ') - 1;
+    if (index >= 0 && index < tasks.length) {
+        let removed = tasks.splice(index, 1);
+        console.log(`Task "${removed[0]}" has been removed.`);
+    } else {
+        console.log('Error: Invalid task number.');
+    }
+}
+
+function main() {
+    let tasks = [];
+    while (true) {
+        console.log('\n============================');
+        console.log('     TO-DO LIST MENU        ');
+        console.log('============================');
+        console.log('1. Add task');
+        console.log('2. View tasks');
+        console.log('3. Delete task');
+        console.log('4. Quit');
+
+        let choice = readlineSync.questionInt('Enter your choice (1-4): ');
+
+        if (choice === 1) {
+            addTask(tasks);
+        } else if (choice === 2) {
+            viewTasks(tasks);
+        } else if (choice === 3) {
+            deleteTask(tasks);
+        } else if (choice === 4) {
+            console.log('Goodbye!');
+            break;
+        } else {
+            console.log('Error: Invalid choice. Please select 1-4.');
+        }
+    }
+}
+
+main();
 
